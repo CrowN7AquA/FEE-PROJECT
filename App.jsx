@@ -1,276 +1,127 @@
-import React, { useState } from 'react';
+import React from 'react';
+import './App.css';
 
-const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
-
-  const menuItems = [
-    { label: 'GAME INFO', key: 'gameInfo' },
-    { label: 'MEDIA', key: 'media' },
-    { label: 'NEWS', key: 'news' },
-    { label: 'SUPPORT', key: 'support' },
-    { label: 'OUR SOCIALS', key: 'socials' },
-    { label: 'ESPORTS 7', key: 'esports' },
-    { label: 'MERCH 7', key: 'merch' },
-    { label: 'MORE', key: 'more' },
-  ];
-
-  const dropdownContent = {
-    gameInfo: ['Overview', 'Story', 'Characters', 'World Map', 'System Requirements'],
-    media: ['Screenshots', 'Videos', 'Wallpapers', 'Soundtrack', 'Artworks'],
-    news: ['Latest News', 'Patch Notes', 'Events', 'Developer Blogs', 'Community Updates'],
-    support: ['FAQ', 'Tickets', 'Live Chat', 'Guides', 'Report Bug'],
-    socials: ['Twitter', 'Facebook', 'Instagram', 'YouTube', 'Discord', 'TikTok'],
-    esports: ['Tournaments', 'Leaderboards', 'Teams', 'Live Streams', 'VODs'],
-    merch: ['Apparel', 'Collectibles', 'Posters', 'Digital Goods', 'Exclusive'],
-    more: ['About Us', 'Careers', 'Press Kit', 'Partners', 'Legal', 'Privacy Policy'],
-  };
-
-  const handleMouseEnter = (key) => {
-    setActiveDropdown(key);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
-  };
-
-  const handleClick = (label) => {
-    alert(`Navigating to ${label} page...`);
-    // Here you would implement actual navigation
-  };
-
+function App() {
   return (
-    <nav 
-      style={{
-        backgroundColor: '#1a1a2e',
-        padding: '0 40px',
-        borderBottom: '2px solid #e94560',
-        fontFamily: 'Arial, sans-serif',
-        position: 'relative',
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height: '60px',
-          maxWidth: '1400px',
-          margin: '0 auto',
-        }}
-      >
-        {/* Logo / Brand (optional placeholder) */}
-        <div
-          style={{
-            color: '#e94560',
-            fontWeight: 'bold',
-            fontSize: '20px',
-            letterSpacing: '2px',
-            marginRight: '20px',
-          }}
-        >
-          NEWS
+    <div className="App">
+      {/* Navbar - Matches "NOWLINE | STORIES | ABOUT | LIVE" design */}
+      <nav className="navbar">
+        <div className="nav-container">
+          <div className="nav-left">
+            <div className="logo">NOWLINE</div>
+            <ul className="nav-links">
+              <li><a href="#stories">STORIES</a></li>
+              <li><a href="#about">ABOUT</a></li>
+              <li><a href="#live">LIVE</a></li>
+            </ul>
+          </div>
+          <div className="nav-right">
+            <button className="btn-signin">Sign in</button>
+          </div>
         </div>
+      </nav>
 
-        {/* Menu Items */}
-        <div
-          style={{
-            display: 'flex',
-            height: '100%',
-            alignItems: 'center',
-            flex: 1,
-            justifyContent: 'space-around',
-          }}
-        >
-          {menuItems.map((item) => (
-            <div
-              key={item.key}
-              style={{
-                position: 'relative',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-              onMouseEnter={() => handleMouseEnter(item.key)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <button
-                onClick={() => handleClick(item.label)}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#ffffff',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  padding: '0 12px',
-                  height: '100%',
-                  letterSpacing: '1px',
-                  transition: 'color 0.2s ease',
-                  textTransform: 'uppercase',
-                  fontFamily: 'inherit',
-                  display: 'flex',
-                  alignItems: 'center',
-                  position: 'relative',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#e94560';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-              >
-                {item.label}
-                {/* Small arrow indicator for dropdown */}
-                <span style={{ marginLeft: '4px', fontSize: '10px' }}>▼</span>
-              </button>
+      {/* Main Headline Section - "CURRENT AFFAIRS/WORLD/CONTEXT" */}
+      <section className="main-headline">
+        <div className="headline-container">
+          <div className="headline-tag">
+            <span>CURRENT AFFAIRS / WORLD / CONTEXT</span>
+          </div>
+          <h1 className="main-title">KNOW WHAT HAPPENED. UNDERSTAND WHY.</h1>
+          <p className="main-subtitle">
+            A cinematic current-affairs platform for understanding climate change, protests, 
+            education controversies, historical events, geography, ecology and world conflicts.
+          </p>
+        </div>
+      </section>
 
-              {/* Dropdown Menu */}
-              {activeDropdown === item.key && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    backgroundColor: '#16213e',
-                    minWidth: '200px',
-                    borderRadius: '0 0 8px 8px',
-                    boxShadow: '0 8px 16px rgba(0,0,0,0.3)',
-                    padding: '8px 0',
-                    borderTop: '2px solid #e94560',
-                    animation: 'fadeIn 0.2s ease',
-                  }}
-                >
-                  {dropdownContent[item.key]?.map((subItem, index) => (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        alert(`Navigating to ${item.label} → ${subItem}...`);
-                        setActiveDropdown(null);
-                      }}
-                      style={{
-                        padding: '10px 20px',
-                        color: '#ffffff',
-                        fontSize: '13px',
-                        cursor: 'pointer',
-                        transition: 'background 0.15s ease, color 0.15s ease',
-                        whiteSpace: 'nowrap',
-                        borderBottom: index < dropdownContent[item.key].length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#e94560';
-                        e.currentTarget.style.color = '#ffffff';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = '#ffffff';
-                      }}
-                    >
-                      {subItem}
-                    </div>
-                  ))}
-                </div>
-              )}
+      {/* News Section - Headline Left, Video Right */}
+      <section className="news-section">
+        <div className="news-container">
+          {/* Left side: News Headline */}
+          <div className="news-headline">
+            <span className="breaking-tag">LIVE</span>
+            <h2 className="news-title">Global Climate Summit 2025: A Turning Point</h2>
+            <p className="news-description">
+              World leaders have reached a landmark agreement on emissions reduction, 
+              with developing nations receiving unprecedented financial support for 
+              green energy transition.
+            </p>
+            <div className="news-meta">
+              <span className="author">By Elena Rodriguez</span>
+              <span className="date">• 2 hours ago</span>
             </div>
-          ))}
+          </div>
+
+          {/* Right side: Video */}
+          <div className="video-container">
+            <div className="video-wrapper">
+              <iframe
+                width="100%"
+                height="315"
+                src="https://www.youtube.com/embed/VIDEO_ID_PLACEHOLDER"
+                title="Climate Summit Coverage"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Category Cards - CLIMATE, SOCIETY, GEOGRAPHIC, HISTORY */}
+      <section className="categories-section">
+        <div className="categories-container">
+          <div className="category-card climate">
+            <h3>CLIMATE</h3>
+            <p>Understanding our changing planet and the fight for a sustainable future.</p>
+          </div>
+          <div className="category-card society">
+            <h3>SOCIETY</h3>
+            <p>Exploring social movements, education, and the structures that shape our lives.</p>
+          </div>
+          <div className="category-card geographic">
+            <h3>GEOGRAPHIC</h3>
+            <p>Discovering the world's diverse landscapes and their impact on human history.</p>
+          </div>
+          <div className="category-card history">
+            <h3>HISTORY</h3>
+            <p>Uncovering the past to better understand the present and future.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Scrolling Content - Additional Stories */}
+      <div className="scroll-content">
+        <div className="content-block">
+          <h2>Featured Stories</h2>
+          <div className="article-grid">
+            <div className="article-item">
+              <h3>Protests and Democracy: A Global Perspective</h3>
+              <p>How citizen movements are reshaping political landscapes across continents.</p>
+              <span className="read-more">Read more →</span>
+            </div>
+            <div className="article-item">
+              <h3>The Future of Education in a Digital Age</h3>
+              <p>Controversies and innovations in how we teach and learn.</p>
+              <span className="read-more">Read more →</span>
+            </div>
+            <div className="article-item">
+              <h3>Ecology in Crisis: Can We Reverse the Damage?</h3>
+              <p>Examining the state of our ecosystems and the efforts to restore balance.</p>
+              <span className="read-more">Read more →</span>
+            </div>
+            <div className="article-item">
+              <h3>Historical Echoes: Conflicts That Shaped Our World</h3>
+              <p>Understanding the roots of modern geopolitical tensions.</p>
+              <span className="read-more">Read more →</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* CSS Animation for dropdown */}
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-          }
-        `}
-      </style>
-    </nav>
-  );
-};
-
-// Main App Component
-const App = () => {
-  return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0f0f1a' }}>
-      <Navbar />
-      
-      {/* Hero Section / News Content */}
-      <div style={{
-        maxWidth: '1200px',
-        margin: '40px auto',
-        padding: '0 20px',
-        color: '#ffffff',
-        fontFamily: 'Arial, sans-serif',
-      }}>
-        <h1 style={{ 
-          fontSize: '42px', 
-          color: '#e94560',
-          borderBottom: '2px solid #e94560',
-          paddingBottom: '15px',
-          marginBottom: '30px',
-        }}>
-          Latest News
-        </h1>
-        
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-          gap: '25px' 
-        }}>
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} style={{
-              backgroundColor: '#1a1a2e',
-              padding: '20px',
-              borderRadius: '8px',
-              borderLeft: '4px solid #e94560',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(233, 69, 96, 0.2)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <span style={{ color: '#e94560', fontWeight: 'bold', fontSize: '14px' }}>GAME NEWS</span>
-                <span style={{ color: '#888', fontSize: '12px' }}>2 hours ago</span>
-              </div>
-              <h3 style={{ margin: '10px 0', fontSize: '18px' }}>Exciting Update {i}: New Features Announced</h3>
-              <p style={{ color: '#aaa', fontSize: '14px', lineHeight: '1.6' }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
-              </p>
-              <div style={{ marginTop: '15px', color: '#e94560', fontSize: '13px', fontWeight: 'bold' }}>
-                Read More →
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer / Credits */}
-      <footer style={{
-        marginTop: '60px',
-        padding: '30px 20px',
-        backgroundColor: '#1a1a2e',
-        borderTop: '1px solid #2a2a4e',
-        textAlign: 'center',
-        color: '#666',
-        fontSize: '13px',
-        fontFamily: 'Arial, sans-serif',
-      }}>
-        <p>© 2026 News Site Prototype — Built with React</p>
-        <p style={{ marginTop: '8px', color: '#444', fontSize: '11px' }}>
-          Hover over any menu item to see dropdown | Click to simulate navigation
-        </p>
-      </footer>
     </div>
   );
-};
+}
 
 export default App;
