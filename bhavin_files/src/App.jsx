@@ -7,6 +7,8 @@ import {
     signInWithPopup, sendPasswordResetEmail, signOut,
     updateProfile, onAuthStateChanged, saveUser
 } from "./firebase";
+import MainPage from "./MainPage";
+import AboutPage from "./AboutPage";
 
 const topics = [
     {
@@ -73,8 +75,8 @@ export default function App() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage user={user} setUser={setUser} />} />
-            <Route path="/feed" element={user ? <Dashboard user={user} setUser={setUser} /> : <LandingPage user={user} setUser={setUser} />} />
-            <Route path="/topic/:id" element={<TopicPage user={user} />} />
+            <Route path="/MainPage" element={user ? <MainPage user={user} setUser={setUser} /> : <LandingPage user={user} setUser={setUser} />} />
+            <Route path="/about" element={<AboutPage user={user} />} />
         </Routes>
     );
 }
@@ -111,17 +113,15 @@ function LandingPage({ user, setUser }) {
             setMessage("Firebase config is missing.");
             return;
         }
-
         try {
             setLoading(true);
             setMessage("");
             await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
-
             if (isLogin) {
                 const result = await signInWithEmailAndPassword(auth, email, password);
                 await saveUser(result.user, "password");
                 setUser(result.user);
-                navigate("/feed");
+                navigate("/MainPage");
             } else {
                 if (password !== confirmPassword) {
                     setMessage("Passwords do not match.");
@@ -132,7 +132,7 @@ function LandingPage({ user, setUser }) {
                 await updateProfile(result.user, { displayName: name });
                 await saveUser(result.user, "password");
                 setUser(result.user);
-                navigate("/feed");
+                navigate("/MainPage");
             }
         } catch (error) {
             setMessage(errorMessage(error));
@@ -148,7 +148,7 @@ function LandingPage({ user, setUser }) {
             const result = await signInWithPopup(auth, provider);
             await saveUser(result.user, providerType);
             setUser(result.user);
-            navigate("/feed");
+            navigate("/MainPage");
         } catch (error) {
             setMessage(errorMessage(error));
         }
@@ -164,17 +164,35 @@ function LandingPage({ user, setUser }) {
         }
     }
 
-    const enforceLogin = (e) => {
-        if (!user) {
-            e.preventDefault();
-            alert("You must log in or create an account to read this briefing.");
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
-
     return (
         <div className="landing">
-            <div className="background"></div>
+            <div className="background" style={{
+                backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundColor: "transparent",
+                position: "absolute",
+                overflow: "hidden"
+            }}>
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        pointerEvents: "none"
+                    }}
+                >
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-31997-large.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <div className="background-overlay"></div>
             <div className="red-glow"></div>
 
@@ -188,7 +206,7 @@ function LandingPage({ user, setUser }) {
                     <span className="live"><span></span> LIVE</span>
                 </nav>
                 {user && (
-                    <button className="profile-btn" onClick={() => navigate("/feed")}>
+                    <button className="profile-btn" onClick={() => navigate("/MainPage")}>
                         {user.displayName || user.email?.split("@")[0]}
                     </button>
                 )}
@@ -209,9 +227,9 @@ function LandingPage({ user, setUser }) {
                     </p>
                     <div className="chips">
                         {topics.map(topic => (
-                            <Link key={topic.id} to={`/topic/${topic.id}`} className="chip" onClick={enforceLogin}>
+                            <span key={topic.id} className="chip">
                                 {topic.name}
-                            </Link>
+                            </span>
                         ))}
                     </div>
                 </div>
@@ -301,15 +319,13 @@ function LandingPage({ user, setUser }) {
                 <div className="story-grid">
                     {topics.map(topic => (
                         <div className="story-card" key={topic.id}>
-                            <Link to={`/topic/${topic.id}`} onClick={enforceLogin}>
-                                <div className="story-image" style={{ backgroundImage: `url(${topic.image})` }}></div>
-                                <div className="story-overlay"></div>
-                                <div className="story-content">
-                                    <span className="story-tag">{topic.name}</span>
-                                    <h3>{topic.title}</h3>
-                                    <p>{topic.text}</p>
-                                </div>
-                            </Link>
+                            <div className="story-image" style={{ backgroundImage: `url(${topic.image})` }}></div>
+                            <div className="story-overlay"></div>
+                            <div className="story-content">
+                                <span className="story-tag">{topic.name}</span>
+                                <h3>{topic.title}</h3>
+                                <p>{topic.text}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -345,81 +361,16 @@ function Dashboard({ user, setUser }) {
                 </div>
                 <div className="topic-grid">
                     {topics.map(topic => (
-                        <Link to={`/topic/${topic.id}`} key={topic.id} className="topic-card" style={{ backgroundImage: `url(${topic.image})` }}>
+                        <div key={topic.id} className="topic-card" style={{ backgroundImage: `url(${topic.image})` }}>
                             <div className="topic-overlay"></div>
                             <div className="topic-info">
                                 <span>{topic.name}</span>
                                 <h2>{topic.title}</h2>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             </main>
-        </div>
-    );
-}
-
-function TopicPage({ user }) {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const topic = topics.find(t => t.id === id);
-
-    // Protected route: redirect straight back if someone types the URL
-    // in without being logged in, instead of only blocking the link click.
-    useEffect(() => {
-        if (!user) {
-            navigate("/", { replace: true });
-        }
-    }, [user, navigate]);
-
-    if (!user) {
-        return null;
-    }
-
-    if (!topic) {
-        return <div className="not-found">Topic not found.</div>;
-    }
-
-    return (
-        <div className="topic-page">
-            <header className="dashboard-nav">
-                <Link to="/" className="logo"><span className="logo-box">N</span> NOWLINE</Link>
-                <Link to="/feed" className="back-button">BACK TO FEED</Link>
-            </header>
-
-            <section className="topic-hero" style={{ backgroundImage: `url(${topic.image})` }}>
-                <div className="topic-dark"></div>
-                <div className="topic-text">
-                    <span>{topic.name}</span>
-                    <h1>{topic.title}</h1>
-                    <p>{topic.text}</p>
-                </div>
-            </section>
-
-            <section className="context">
-                <span>EDITORIAL FRAMEWORK</span>
-                <h2>From headline to context.</h2>
-                <div className="context-grid">
-                    <div className="context-card">
-                        <div className="context-bg" style={{ backgroundImage: `url(${topic.image})` }}></div>
-                        <b>01</b>
-                        <h3>WHAT HAPPENED?</h3>
-                        <p>Unpack the core facts, timelines, regions, and immediate context behind the headlines.</p>
-                    </div>
-                    <div className="context-card">
-                        <div className="context-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=800&q=80')` }}></div>
-                        <b>02</b>
-                        <h3>WHY DOES IT MATTER?</h3>
-                        <p>Examine the deeper geopolitical, economic, social, or environmental implications.</p>
-                    </div>
-                    <div className="context-card">
-                        <div className="context-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=800&q=80')` }}></div>
-                        <b>03</b>
-                        <h3>WHAT NEXT?</h3>
-                        <p>Analyze upcoming policy shifts, escalation vectors, and long-term consequences.</p>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 }
@@ -429,7 +380,6 @@ function SiteFooter() {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Close the dropdown if the user clicks anywhere outside it.
     useEffect(() => {
         function handleClickOutside(e) {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
