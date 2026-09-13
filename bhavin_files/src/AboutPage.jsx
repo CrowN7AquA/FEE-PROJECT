@@ -25,7 +25,7 @@ export default function AboutPage({ user }) {
       version: "INQUIRY 03",
       title: "Join the Newsroom",
       short: "For student developers and designers looking to build with us.",
-      details: "Want to build new features for NOWLINE? We are always open to collaborations. Contact us to get access to our GitHub repository branch and start coding!"
+      details: "Want to build new features for SourcePoint? We are always open to collaborations. Contact us to get access to our GitHub repository branch and start coding!"
     }
   ];
 
@@ -60,7 +60,7 @@ export default function AboutPage({ user }) {
       {/* Standard Header */}
       <header className="navbar">
         <Link to={user ? "/MainPage" : "/"} className="logo">
-          <span className="logo-box">N</span> NOWLINE
+          <span className="logo-box">S</span> SourcePoint
         </Link>
         <nav>
           <Link to="/MainPage">STORIES</Link>
@@ -100,7 +100,7 @@ export default function AboutPage({ user }) {
               NOT CHAOS.
             </h1>
             <p style={{ marginTop: "2rem", fontSize: "1.2rem", color: "#b3b3b3", lineHeight: "1.6" }}>
-              NOWLINE was established to dismantle algorithmic sensationalism. We construct multi-layered visual briefings on modern geopolitics, active climate shifts, and socioeconomic movements.
+              SourcePoint was established to dismantle algorithmic sensationalism. We construct multi-layered visual briefings on modern geopolitics, active climate shifts, and socioeconomic movements.
             </p>
           </div>
 
@@ -431,7 +431,7 @@ export default function AboutPage({ user }) {
               transition: "transform 0.2s ease, background 0.2s ease"
             }}
           >
-            {user ? "ACCESS BRIEFING ROOM →" : "JOIN NOWLINE →"}
+            {user ? "ACCESS BRIEFING ROOM →" : "JOIN SourcePoint →"}
           </button>
         </div>
       </section>
