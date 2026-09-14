@@ -1,44 +1,79 @@
 // App.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [topicsOpen, setTopicsOpen] = useState(false);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (!event.target.closest('.topics')) {
+        setTopicsOpen(false);
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="App">
       {/* Navbar */}
       <nav className="navbar">
-        <div className="nav-left">
-          <div className="logo">NOWLINE</div>
-          <ul className="nav-links">
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">HISTORICAL</a></li>
-            <li><a href="#">GEOGRAPHICAL</a></li>
-            <li><a href="#">NATURAL DISASTERS</a></li>
-            <li><a href="#">CURRENT AFFAIRS</a></li>
-            <li><a href="#">WORLD</a></li>
-            <li><a href="#">POLITICS</a></li>
-            <li><a href="#">SCIENCE</a></li>
-            <li><a href="#">ECONOMY</a></li>
-            <li><a href="#">ABOUT US</a></li>
-          </ul>
+        {/* Navbar logo */}
+        <div className="logo">
+          <div className="logo-mark">
+            <span>N</span>
+          </div>
+          <div className="logo-text">NOWLINE</div>
         </div>
-        <button className="btn-signin">Sign in</button>
+
+        {/* Topics dropdown */}
+        <div
+          className="topics"
+          onMouseEnter={() => setTopicsOpen(true)}
+          onMouseLeave={() => setTopicsOpen(false)}
+        >
+          <button className="topics-btn">
+            TOPICS <span className="caret">▾</span>
+          </button>
+
+          {topicsOpen && (
+            <div className="topics-menu">
+              <a href="#">Climate</a>
+              <a href="#">Historical</a>
+              <a href="#">Geographical</a>
+              <a href="#">Disasters</a>
+              <a href="#">World</a>
+              <a href="#">Politics</a>
+              <a href="#">Science</a>
+              <a href="#">Economy</a>
+            </div>
+          )}
+        </div>
+
+        {/* About Us + Sign in */}
+        <div className="nav-right">
+          <a href="#" className="btn-about">About Us</a>
+          <button className="btn-signin">Sign in</button>
+        </div>
       </nav>
 
       {/* Hero Section */}
       <section className="hero">
-        <p className="hero-tag">CURRENT AFFAIRS / WORLD / CONTEXT</p>
-        <h1 className="hero-title">KNOW WHAT HAPPENED.<br />UNDERSTAND WHY.</h1>
-        <p className="hero-subtitle">
-          A cinematic current-affairs platform for understanding climate change, protests,
-          education controversies, historical events, geography, ecology and world conflicts.
+        <img src="/nowline.png" alt="Nowline" className="hero-name" />
+        <p className="hero-tagline">
+          NOWLINE — A current-affairs platform for understanding the world in context.
         </p>
       </section>
 
-      {/* Section 1 - Current Affairs (Heading Right, Video Left) */}
+      {/* Section 1 - Climate */}
       <section className="story-section reverse">
         <div className="story-text">
-          <span className="story-tag">CURRENT AFFAIRS</span>
+          <span className="story-tag">Climate</span>
           <h2>Global Climate Summit 2025: A Turning Point</h2>
           <p>
             World leaders have reached a landmark agreement on emissions reduction.
@@ -49,16 +84,16 @@ function App() {
         <div className="story-video">
           <iframe
             src="https://www.youtube.com/embed/VIDEO_ID_1"
-            title="Current Affairs Video"
+            title="Climate Video"
             allowFullScreen
           ></iframe>
         </div>
       </section>
 
-      {/* Section 2 - Historical (Video Right, Heading Left) */}
+      {/* Section 2 - Historical */}
       <section className="story-section">
         <div className="story-text">
-          <span className="story-tag">HISTORICAL</span>
+          <span className="story-tag">Historical</span>
           <h2>Lessons From the Past: How History Shapes Today</h2>
           <p>
             From ancient civilizations to modern conflicts, understanding history
@@ -75,10 +110,10 @@ function App() {
         </div>
       </section>
 
-      {/* Section 3 - Geographical (Heading Right, Video Left) */}
+      {/* Section 3 - Geographical */}
       <section className="story-section reverse">
         <div className="story-text">
-          <span className="story-tag">GEOGRAPHICAL</span>
+          <span className="story-tag">Geographical</span>
           <h2>Mapping the World: Landscapes That Define Nations</h2>
           <p>
             Geography shapes culture, economy and conflict. Explore how natural
@@ -95,10 +130,10 @@ function App() {
         </div>
       </section>
 
-      {/* Section 4 - Natural Disasters (Video Right, Heading Left) */}
+      {/* Section 4 - Disasters */}
       <section className="story-section">
         <div className="story-text">
-          <span className="story-tag">NATURAL DISASTERS</span>
+          <span className="story-tag">Disasters</span>
           <h2>When Nature Strikes: Preparedness and Response</h2>
           <p>
             Earthquakes, floods and wildfires are increasing in frequency.
@@ -109,16 +144,16 @@ function App() {
         <div className="story-video">
           <iframe
             src="https://www.youtube.com/embed/VIDEO_ID_4"
-            title="Natural Disasters Video"
+            title="Disasters Video"
             allowFullScreen
           ></iframe>
         </div>
       </section>
 
-      {/* Section 5 - World (Heading Right, Video Left) */}
+      {/* Section 5 - World */}
       <section className="story-section reverse">
         <div className="story-text">
-          <span className="story-tag">WORLD</span>
+          <span className="story-tag">World</span>
           <h2>Global Headlines: Stories Shaping Our World</h2>
           <p>
             From diplomatic breakthroughs to regional tensions, we cover the
@@ -135,10 +170,10 @@ function App() {
         </div>
       </section>
 
-      {/* Section 6 - Politics (Video Right, Heading Left) */}
+      {/* Section 6 - Politics */}
       <section className="story-section">
         <div className="story-text">
-          <span className="story-tag">POLITICS</span>
+          <span className="story-tag">Politics</span>
           <h2>Power and Policy: Inside the Decisions That Matter</h2>
           <p>
             Elections, reforms and debates — we break down the political
@@ -155,10 +190,10 @@ function App() {
         </div>
       </section>
 
-      {/* Section 7 - Science (Heading Right, Video Left) */}
+      {/* Section 7 - Science */}
       <section className="story-section reverse">
         <div className="story-text">
-          <span className="story-tag">SCIENCE</span>
+          <span className="story-tag">Science</span>
           <h2>Discovery and Innovation: The Frontiers of Knowledge</h2>
           <p>
             From space exploration to medical breakthroughs, science continues
@@ -175,10 +210,10 @@ function App() {
         </div>
       </section>
 
-      {/* Section 8 - Economy (Video Right, Heading Left) */}
+      {/* Section 8 - Economy */}
       <section className="story-section">
         <div className="story-text">
-          <span className="story-tag">ECONOMY</span>
+          <span className="story-tag">Economy</span>
           <h2>Markets and Money: Understanding the Global Economy</h2>
           <p>
             Inflation, trade and jobs — we explain the economic forces that
@@ -194,10 +229,10 @@ function App() {
           ></iframe>
         </div>
       </section>
-      
+
       {/* Footer */}
       <footer className="footer">
-        <p>© 2025 NOWLINE. All rights reserved.</p>
+        <p>© 2025 Nowline. All rights reserved.</p>
       </footer>
     </div>
   );
