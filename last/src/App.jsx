@@ -59,7 +59,7 @@ export default function App() {
             <Route path="/" element={<LandingPage user={user} setUser={setUser} />} />
             <Route path="/MainPage" element={user ? <MainPage user={user} setUser={setUser} /> : <LandingPage user={user} setUser={setUser} />} />
             <Route path="/about" element={<AboutPage user={user} setUser={setUser} />} />
-            <Route path="/live" element={<LiveCoveragePage user={user} setUser={setUser} />} />
+            <Route path="/live" element={user ? <LiveCoveragePage user={user} setUser={setUser} /> : <LandingPage user={user} setUser={setUser} />} />
             <Route path="/privacy" element={<LegalPage title="Privacy Policy" sections={privacyContent} />} />
             <Route path="/terms" element={<LegalPage title="Terms of Service" sections={termsContent} />} />
             <Route path="/cookies" element={<LegalPage title="Cookie Preferences" sections={cookiesContent} />} />
@@ -179,6 +179,17 @@ function LandingPage({ user, setUser }) {
         }
     }
 
+    function handleProtectedNav(e, path, promptText) {
+        if (user) return; // let Link navigate normally
+        e.preventDefault();
+        setLoginPrompt(promptText);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => {
+            const emailInput = document.querySelector('.auth-card input[type="email"]');
+            if (emailInput) emailInput.focus();
+        }, 500);
+    }
+
     function errorMessage(error) {
         const errors = {
             "auth/invalid-email": "Invalid email address.",
@@ -267,7 +278,6 @@ function LandingPage({ user, setUser }) {
             <div className="background-overlay"></div>
             <div className="red-glow"></div>
 
-            {/* Unified Navbar */}
             <header className="navbar">
                 <Link to={user ? "/MainPage" : "/"} className="logo">
                     <span className="logo-box">N</span> NOWLINE
@@ -285,17 +295,26 @@ function LandingPage({ user, setUser }) {
                             )}
                         </div>
                     )}
-                    <Link to="/MainPage" className={currentPath === "/MainPage" ? "nav-active" : ""}>STORIES</Link>
-                    <Link to="/about" className={currentPath === "/about" ? "nav-active" : ""}>ABOUT</Link>
-                    <Link to="/live" className={`live ${currentPath === "/live" ? "nav-active" : ""}`}><span></span> LIVE</Link>
+                    <Link
+                        to="/MainPage"
+                        className={currentPath === "/MainPage" ? "nav-active" : ""}
+                        onClick={(e) => handleProtectedNav(e, "/MainPage", "Sign in to read stories →")}
+                    >STORIES</Link>
+                    <Link
+                        to="/about"
+                        className={currentPath === "/about" ? "nav-active" : ""}
+                    >ABOUT</Link>
+                    <Link
+                        to="/live"
+                        className={`live ${currentPath === "/live" ? "nav-active" : ""}`}
+                        onClick={(e) => handleProtectedNav(e, "/live", "Sign in to watch live →")}
+                    ><span></span> LIVE</Link>
                 </nav>
-                {user ? (
+                {user && (
                     <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                         <button className="profile-btn" onClick={() => navigate("/MainPage")}>{user.displayName || user.email?.split("@")[0]}</button>
                         <button className="profile-btn" onClick={handleLogout}>Sign Out</button>
                     </div>
-                ) : (
-                    <Link to="/" className="profile-btn" style={{ textDecoration: 'none' }}>Sign in</Link>
                 )}
             </header>
 
@@ -316,16 +335,12 @@ function LandingPage({ user, setUser }) {
                         <span>HAPPENED.</span> <br />
                         UNDERSTAND WHY.
                     </h1>
-                    <p>
-                        No hot takes. No 10-second clips. Just the long story behind wars, quakes, floods, and the climate shifts quietly reshaping your life. Read it. Sit with it. Understand it.
-                    </p>
-                    <div className="chips">
-                        {topics.map(topic => (
-                            <span key={topic.id} className="chip">
-                                {topic.name}
-                            </span>
-                        ))}
-                    </div>
+                                        <ul className="hero-bullets">
+                        <li><strong>Wars · Quakes · Floods</strong> — tracked live, verified on-ground</li>
+                        <li>Climate alerts, data leaks & disaster intelligence in real time</li>
+                        <li>Direct routes to <strong>verified donation drives</strong> and relief orgs</li>
+                        <li><strong>Slow news. Real context. Zero noise.</strong></li>
+                    </ul>
                 </div>
 
                 <div className="auth-area">
