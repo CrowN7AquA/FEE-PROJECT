@@ -12,10 +12,34 @@ import AboutPage from "./AboutPage";
 import LiveCoveragePage from "./LiveCoveragePage";
 
 const topics = [
-    { id: "climate", name: "CLIMATE", title: "El Niño & Climate Change", text: "How ocean temperature anomalies alter global agricultural yields and weather patterns.", image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1400&q=85" },
-    { id: "society", name: "SOCIETY", title: "Exam Controversies", text: "Deep-dive into structural policy leaks, accountability, and student reforms.", image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1300&q=85" },
-    { id: "geopolitics", name: "GEOPOLITICS", title: "Wars & Global Conflicts", text: "Tracing the territorial vectors and diplomatic escalations shaping modern security.", image: "https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=1400&q=85" },
-    { id: "history", name: "HISTORY", title: "History Behind Headlines", text: "Connect contemporary global events to the historical roots that shaped modern borders.", image: "https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=1400&q=85" }
+    {
+        id: "truth",
+        name: "TRUTH",
+        title: "Uniting the Nation",
+        text: "Verified, unbiased reporting that cuts through the noise — because a nation informed by truth stands together.",
+        image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85"
+    },
+    {
+        id: "rescue",
+        name: "RESCUE",
+        title: "Saving the Survivors",
+        text: "Real-time alerts and relief coordination for earthquakes, floods, tsunamis, and every natural calamity.",
+        image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&w=1400&q=85"
+    },
+    {
+        id: "live",
+        name: "LIVE 24/7",
+        title: "Coverage That Never Sleeps",
+        text: "Round-the-clock dispatches from crisis zones, disaster sites, and global summits — updated the moment it happens.",
+        image: "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?auto=format&fit=crop&w=1400&q=85"
+    },
+    {
+        id: "donate",
+        name: "DONATE",
+        title: "Give. Rebuild. Restore.",
+        text: "Every contribution reaches verified relief drives — 100% routed to survivors and the rebuilding of our nation.",
+        image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=1400&q=85"
+    }
 ];
 
 const inDepthSections = [
@@ -180,7 +204,7 @@ function LandingPage({ user, setUser }) {
     }
 
     function handleProtectedNav(e, path, promptText) {
-        if (user) return; // let Link navigate normally
+        if (user) return;
         e.preventDefault();
         setLoginPrompt(promptText);
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -335,7 +359,7 @@ function LandingPage({ user, setUser }) {
                         <span>HAPPENED.</span> <br />
                         UNDERSTAND WHY.
                     </h1>
-                                        <ul className="hero-bullets">
+                    <ul className="hero-bullets">
                         <li><strong>Wars · Quakes · Floods</strong> — tracked live, verified on-ground</li>
                         <li>Climate alerts, data leaks & disaster intelligence in real time</li>
                         <li>Direct routes to <strong>verified donation drives</strong> and relief orgs</li>
@@ -423,13 +447,14 @@ function LandingPage({ user, setUser }) {
             </section>
 
             <section className="stories" id="stories">
-                <div className="section-top">
+                <div className="section-top pillar-top">
                     <div>
                         <span>FROM AWARENESS TO ACTION</span>
-                        <h2>News that moves us to act.</h2>
+                        <h2>EVERY HAND MATTERS, EVERY LIFE COUNTS !!!</h2>
                     </div>
-                    <small>CRISIS · CONTEXT · RELIEF</small>
+                    <small>TRUTH · RESCUE · RELIEF</small>
                 </div>
+                <br></br>
                 <div className="story-grid">
                     {topics.map(topic => (
                         <div
