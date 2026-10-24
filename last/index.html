@@ -2,12 +2,80 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>last</title>
-  </head>
-  <body>
+    <title>NOWLINE — Global Live Intelligence & Newsroom Engine</title>
+
+    <!-- 1. Tailwind CSS CDN & Theme Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ink: '#0B0F14',
+                        panel: '#141C24',
+                        panelHover: '#1B2530',
+                        borderGrid: '#222D3A',
+                        signalRed: '#E53935',
+                        signalAmber: '#FFB300',
+                        neonEmerald: '#00E676',
+                        mutedSlate: '#8C9BAE',
+                        textWhite: '#F0F4F8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Space Mono', 'Consolas', 'monospace'],
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'radar-sweep': 'radar 4s linear infinite',
+                    },
+                    keyframes: {
+                        radar: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 2. FontAwesome Icons & Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="[suspicious link removed]" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 3. Custom Tactical Background Grids & Radar Overlay Styles -->
+    <style>
+        body {
+            background-color: #0B0F14;
+            color: #F0F4F8;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        /* Tactical Grid Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(34, 45, 58, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(34, 45, 58, 0.25) 1px, transparent 1px);
+        }
+        /* Radial Red Glow */
+        .signal-glow {
+            background: radial-gradient(circle at 50% 20%, rgba(229, 57, 53, 0.08) 0%, rgba(11, 15, 20, 0) 70%);
+        }
+        /* Video Scanlines */
+        .scanline {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+        }
+    </style>
+</head>
+<body class="bg-ink text-textWhite font-sans antialiased min-h-full flex flex-col bg-grid-pattern signal-glow">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
 </html>
