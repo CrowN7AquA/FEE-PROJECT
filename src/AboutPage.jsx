@@ -9,6 +9,8 @@ import arcticIceImg from "./willian-justen-de-vasconcellos-LzwNq8DVQzs-unsplash.
 import crisisMapImg from "./kelsey-knight-SFRw5GChoLA-unsplash.jpg";
 import platformArchitectBgImg from "./Screenshot 2026-10-24 225302.png";
 
+const DROPDOWN_TOPICS = ["World", "Science", "Economy", "Climate"];
+
 export default function AboutPage({ user, setUser }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -134,8 +136,8 @@ export default function AboutPage({ user, setUser }) {
               <button className="topics-btn">TOPICS <span className="caret">▾</span></button>
               {topicsOpen && (
                 <div className="topics-menu">
-                  {["Climate","Historical","Geographical","Disasters","World","Politics","Science","Economy"].map(t => (
-                    <a key={t} href={`#${t.toLowerCase()}`}>{t}</a>
+                  {DROPDOWN_TOPICS.map(t => (
+                    <a key={t} href={`/home#${t.toLowerCase()}`}>{t}</a>
                   ))}
                 </div>
               )}
@@ -155,11 +157,11 @@ export default function AboutPage({ user, setUser }) {
         </nav>
         {user ? (
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <button className="profile-btn" style={{ border: "none", background: "transparent", boxShadow: "none" }} onClick={() => navigate("/home")}>{user.displayName || user.email?.split("@")[0]}</button>
-            <button className="profile-btn" style={{ border: "none", background: "transparent", boxShadow: "none" }} onClick={handleLogout}>Sign Out</button>
+            <span className="user-name" style={{ cursor: 'default', pointerEvents: 'none' }}>{user.displayName || user.email?.split("@")[0]}</span>
+            <button className="profile-btn" onClick={handleLogout}>Sign Out</button>
           </div>
         ) : (
-          <Link to="/" className="profile-btn" style={{ textDecoration: 'none', border: 'none', background: 'transparent', boxShadow: 'none' }}>Sign in</Link>
+          <Link to="/" className="profile-btn" style={{ textDecoration: 'none' }}>Sign in</Link>
         )}
       </header>
 

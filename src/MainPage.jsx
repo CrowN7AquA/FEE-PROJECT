@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth, signOut } from './firebase';
 import ScrollSnapSection from './ScrollSnapSection';
 
+const DROPDOWN_TOPICS = ["World", "Science", "Economy", "Climate"];
 
 const LETTERS = [
   { char: 'N', rest: 'EWS',    desc: 'We are here to help people. We take donations and inform about climate, earthquakes, tsunamis, hurricanes, and all that.' },
@@ -174,7 +175,7 @@ function MainPage({ user, setUser }) {
               <button className="topics-btn">TOPICS <span className="caret">▾</span></button>
               {topicsOpen && (
                 <div className="topics-menu">
-                  {["Climate","Historical","Geographical","Disasters","World","Politics","Science","Economy"].map(t => (
+                  {DROPDOWN_TOPICS.map(t => (
                     <a key={t} href={`#${t.toLowerCase()}`}>{t}</a>
                   ))}
                 </div>
@@ -187,11 +188,7 @@ function MainPage({ user, setUser }) {
         </nav>
         {user ? (
           <div style={{ display: "flex", gap: "1.25rem", alignItems: "center" }}>
-            <span
-              className="user-name"
-              onClick={() => navigate("/home")}
-              title="Go to dashboard"
-            >
+            <span className="user-name" style={{ pointerEvents: 'none', cursor: 'default', borderBottom: 'none' }}>
               {displayName}
             </span>
             <button className="profile-btn" onClick={handleLogout}>Sign Out</button>
@@ -201,7 +198,6 @@ function MainPage({ user, setUser }) {
         )}
       </header>
 
-      {/* ─── HERO ─────────────────────────────────────── */}
       <section className="hero main-hero" style={{ gridTemplateColumns: "1fr", minHeight: "100vh", position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <h1 className={`hero-logo-reveal ${introDone ? "active" : ""} ${isLocked ? "locked" : ""}`} onMouseLeave={handleTitleLeave}>
           {LETTERS.map((l, i) => {
@@ -228,7 +224,6 @@ function MainPage({ user, setUser }) {
         </div>
       </section>
 
-      {/* ─── SECTION 1: LIVE CRISIS TICKER ─────────────── */}
       <div className="mp-ticker" aria-label="Live crisis updates">
         <div className="mp-ticker-track">
           {[...tickerItems, ...tickerItems].map((item, i) => (
@@ -237,10 +232,8 @@ function MainPage({ user, setUser }) {
         </div>
       </div>
 
-      {/* ─── SECTION 2: FULL-PAGE SCROLL-SNAP VIDEO SECTIONS ─── */}
       <ScrollSnapSection />
 
-      {/* ─── SECTION 3: RELIEF & DONATION DRIVES ──────── */}
       <section className="mp-section" id="donate">
         <div className="section-top">
           <div>
@@ -272,7 +265,6 @@ function MainPage({ user, setUser }) {
         </div>
       </section>
 
-      {/* ─── SECTION 4: NEWSLETTER ────────────────────── */}
       <section className="mp-newsletter">
         <div className="mp-newsletter-inner mp-reveal">
           <span className="mp-newsletter-eyebrow">NOWLINE NEWSLETTER</span>

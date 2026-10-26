@@ -42,6 +42,8 @@ const topics = [
     }
 ];
 
+const DROPDOWN_TOPICS = ["World", "Science", "Economy", "Climate"];
+
 export default function App() {
     const [user, setUser] = useState(null);
     const [checkingUser, setCheckingUser] = useState(true);
@@ -88,21 +90,18 @@ const privacyContent = [
     { h: "3. Cookies", p: "We use minimal cookies for authentication and language preference. No third-party tracking pixels. No ad-tech." },
     { h: "4. Your rights", p: "You can request deletion of your account and data at any time by emailing kaurgulmehak23@gmail.com. We respond within 7 working days." }
 ];
-
 const termsContent = [
     { h: "1. Acceptance", p: "By using Nowline, you agree to these terms. If you do not agree, please do not use the platform." },
     { h: "2. Content usage", p: "All briefings, data visualisations, and editorial pieces are the intellectual property of Nowline. You may share links freely but may not republish without permission." },
     { h: "3. User conduct", p: "Do not submit false crisis reports, fake donation drives, or misleading evidence. Violations result in immediate account termination." },
     { h: "4. Donations", p: "Nowline only features verified donation drives. We are not liable for third-party NGO fund usage. Always verify before donating large sums." }
 ];
-
 const cookiesContent = [
     { h: "Essential cookies", p: "Required for login session and language preference. Cannot be disabled." },
     { h: "Analytics cookies", p: "Optional. Help us understand which briefings readers find most useful. Aggregated and anonymised." },
     { h: "Preference cookies", p: "Remember your font size, dark mode, and region. Stored locally on your device." },
     { h: "How to manage", p: "You can clear cookies via your browser settings at any time. Disabling essential cookies may break login." }
 ];
-
 const supportContent = [
     { h: "Reader support", p: "Email us at kaurgulmehak23@gmail.com for any login, account, or reading issue. We reply within 48 hours." },
     { h: "Crisis reports", p: "For verified news tips, disaster alerts, or on-ground reporting, use the Report a Crisis form on the About page." },
@@ -307,8 +306,8 @@ function LandingPage({ user, setUser }) {
                             <button className="topics-btn">TOPICS <span className="caret">▾</span></button>
                             {topicsOpen && (
                                 <div className="topics-menu">
-                                    {["Climate","Historical","Geographical","Disasters","World","Politics","Science","Economy"].map(t => (
-                                        <a key={t} href={`#${t.toLowerCase()}`}>{t}</a>
+                                    {DROPDOWN_TOPICS.map(t => (
+                                        <a key={t} href={`/home#${t.toLowerCase()}`}>{t}</a>
                                     ))}
                                 </div>
                             )}
@@ -331,19 +330,7 @@ function LandingPage({ user, setUser }) {
                 </nav>
                 {user && (
                     <div style={{ display: "flex", gap: "1.25rem", alignItems: "center" }}>
-                        <span
-                            className="user-name"
-                            onClick={() => navigate("/home")}
-                            title="Go to dashboard"
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    navigate("/home");
-                                }
-                            }}
-                        >
+                        <span className="user-name" style={{ pointerEvents: 'none', cursor: 'default', borderBottom: 'none' }}>
                             {user.displayName || user.email?.split("@")[0]}
                         </span>
                         <button className="profile-btn" onClick={handleLogout}>Sign Out</button>
